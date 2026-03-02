@@ -12,7 +12,7 @@
   --font-hand: var(--font-caveat);
   --font-journal: var(--font-patrick-hand);
 
-  /* Empathy Hub â€” Museum palette */
+  /* Empathy Hub — Museum palette */
   --color-hub-white: #ffffff;
   --color-hub-off-white: #f9fafb;
   --color-hub-bg: #ffffff;
@@ -21,12 +21,32 @@
   --color-hub-sage-deep: #8a9a85;
   --color-hub-gold: #f3e5ab;
   --color-hub-gold-dark: #e0cc7a;
+  --color-hub-blush: #f9e4e4;
+  --color-hub-blush-dark: #e8c5c5;
+  --color-hub-sky: #e0edf9;
+  --color-hub-sky-dark: #bad4ef;
   --color-hub-text: #1a1a1a;
   --color-hub-text-secondary: #4a4a4a;
   --color-hub-text-muted: #7a7a7a;
   --color-hub-border: #e5e7eb;
   --font-serif: var(--font-playfair);
   --font-sans: var(--font-inter);
+
+  /* ===== CLAYMORPHISM SHADOWS ===== */
+  /* Format: x y blur spread + large ambient */
+  --clay-sage: 0 8px 0 0 #c5cec2, 0 16px 40px rgba(0, 0, 0, 0.08);
+  --clay-gold: 0 8px 0 0 #e0cc7a, 0 16px 40px rgba(0, 0, 0, 0.08);
+  --clay-blush: 0 8px 0 0 #e8c5c5, 0 16px 40px rgba(0, 0, 0, 0.08);
+  --clay-sky: 0 8px 0 0 #bad4ef, 0 16px 40px rgba(0, 0, 0, 0.08);
+  --clay-white: 0 8px 0 0 #d1d5db, 0 16px 40px rgba(0, 0, 0, 0.07);
+
+  /* ===== VARIABLE CORNER RADII ===== */
+  --radius-a: 24px 48px 24px 40px; /* Organic top-right */
+  --radius-b: 40px 24px 48px 24px; /* Organic bottom-right */
+  --radius-c: 48px 24px 24px 40px; /* Round top-left */
+  --radius-d: 24px 40px 40px 24px; /* Round bottom-left */
+  --radius-e: 32px; /* Standard round */
+  --radius-f: 48px 32px 48px 32px; /* Pill-like oval */
 }
 
 * {
@@ -681,31 +701,13 @@ body {
 }
 
 /* =============================================
-   EMPATHY HUB — Museum Style
+   EMPATHY HUB â€” Museum Style
    ============================================= */
 
-/* ===== CLAYMORPHISM & ORGANIC UTILITIES ===== */
-:root {
-  /* Claymorphism: soft outer shadow + thick bright top-inner shadow + thick dark bottom-inner shadow */
-  --shadow-clay:
-    8px 8px 24px rgba(0, 0, 0, 0.04), inset -6px -6px 16px rgba(0, 0, 0, 0.04),
-    inset 6px 6px 16px rgba(255, 255, 255, 1);
-
-  --shadow-clay-hover:
-    12px 12px 32px rgba(0, 0, 0, 0.08),
-    inset -8px -8px 20px rgba(0, 0, 0, 0.05),
-    inset 8px 8px 20px rgba(255, 255, 255, 1);
-
-  /* For darker/tinted clay elements */
-  --shadow-clay-tinted:
-    6px 6px 18px rgba(0, 0, 0, 0.03), inset -4px -4px 12px rgba(0, 0, 0, 0.03),
-    inset 4px 4px 12px rgba(255, 255, 255, 0.7);
-}
-
-/* Base background update for clay contrast */
 .hub {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  background-color: #fafaf8; /* Softer, slightly warm off-white */
+  background-color: var(--color-hub-bg);
+  /* Safe CSS gradient to replace the blobs without overflow issues */
   background-image:
     radial-gradient(
       circle at 15% 15%,
@@ -727,24 +729,6 @@ body {
   line-height: 1.75;
   cursor: none; /* Hide default cursor for custom one */
   position: relative;
-  min-height: 100vh;
-}
-
-/* Assorted Asymmetric Organic Radii */
-.hub-radius-1 {
-  border-radius: 40px 14px 44px 18px / 30px 40px 30px 20px;
-}
-.hub-radius-2 {
-  border-radius: 12px 40px 20px 44px / 20px 30px 40px 30px;
-}
-.hub-radius-3 {
-  border-radius: 38px 24px 14px 40px / 40px 24px 38px 24px;
-}
-.hub-radius-4 {
-  border-radius: 20px 38px 40px 14px / 30px 40px 30px 40px;
-}
-.hub-radius-5 {
-  border-radius: 44px 18px 40px 14px / 30px 20px 30px 40px;
 }
 
 /* ===== TACTILE PAPER GRAIN ===== */
@@ -772,9 +756,21 @@ body {
   cursor: none; /* Let CustomCursor handle interactions */
 }
 
+/* ===== NEUMORPHIC UTILITIES ===== */
+:root {
+  --shadow-neumorphic:
+    8px 8px 16px rgba(0, 0, 0, 0.04), -8px -8px 16px rgba(255, 255, 255, 0.8);
+  --shadow-neumorphic-hover:
+    12px 12px 24px rgba(0, 0, 0, 0.06), -12px -12px 24px rgba(255, 255, 255, 1);
+  --shadow-neumorphic-inset:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.04),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+}
+
 /* ===== STICKER AESTHETIC ===== */
 .hub-sticker {
   display: inline-block;
+  background: var(--color-hub-white);
   padding: 0.25rem 0.75rem;
   border: 1px solid var(--color-hub-border);
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.06);
@@ -932,10 +928,6 @@ body {
 /* ===== HERO ===== */
 .hub-hero {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 5fr 6fr;
-  align-items: center;
-  gap: 5rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 8rem 2.5rem 6rem;
@@ -1061,16 +1053,6 @@ body {
   color: var(--color-hub-text);
   letter-spacing: -0.025em;
   line-height: 1.2;
-}
-
-.hub-section-title::after {
-  content: "";
-  display: block;
-  width: 48px;
-  height: 3px;
-  background: var(--color-hub-sage-dark);
-  border-radius: 2px;
-  margin-top: 1rem;
 }
 
 .hub-section-subtitle {

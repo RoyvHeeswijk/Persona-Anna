@@ -10,86 +10,74 @@ export default function ContextSection() {
       <SectionHeader
         number="03"
         title="De Leefwereld"
-        subtitle="Het dagelijks kader waarin Anna functioneert: wonen, werken en cultuur."
+        subtitle="Wonen, werken en cultuur — het dagelijks kader."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mt-12 relative">
-        {/* Decorative arrow pointing between cards */}
-        <svg
-          className="absolute left-[30%] top-[45%] text-[#C5CEC2] w-24 h-24 hidden lg:block z-0 pointer-events-none"
-          viewBox="0 0 100 100"
-          fill="none"
-        >
-          <path
-            d="M10 50 Q 50 10, 90 50 M 80 40 L 90 50 L 75 55"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-
-        <div className="md:col-span-5 relative z-10">
+      {/* Staggered z-layered grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mt-12">
+        {/* Top-left, lower z — sage */}
+        <div className="md:col-span-5">
           <BentoCard
             icon="🏠"
             iconBg="sage"
             title="Huisvesting"
-            delay={0.1}
-            radiusClass="hub-radius-4"
+            delay={0.05}
+            variant="sage"
+            radius="c"
           >
             <p className="mb-4">
-              Wekker om 05:30 voor de badkamer-rij. Woont met 5 anderen. Muren
-              zo dun dat je een lepel hoort vallen.{" "}
-              <span className="italic text-gray-400">
-                Privacy via een gordijn voor haar bed.
-              </span>
+              Wekker om 05:30 voor de badkamer-rij. Woont met 5 anderen in een
+              kamer van <span className="font-semibold text-gray-800">9m²</span>
+              . Muren zo dun dat je een lepel hoort vallen. Privacy via een
+              gordijn voor haar bed.
             </p>
-            <div className="p-3 bg-[#f9fafb] rounded-lg border border-dashed border-[#e5e7eb] font-mono text-xs text-gray-500 mt-4">
-              STATUS: Woonruimte is wettelijk gekoppeld aan werkcontract.
+            <div className="px-3 py-2 rounded-xl text-xs font-mono text-gray-500 bg-white/50">
+              STATUS: Woonruimte wettelijk gekoppeld aan werkcontract.
             </div>
           </BentoCard>
         </div>
 
-        {/* Floating higher on Z axis using framer motion y-offset and larger shadow */}
+        {/* Top-right, lifted — gold */}
         <motion.div
-          className="md:col-span-7 relative z-30"
+          className="md:col-span-7 md:mt-10 md:mb-[-2rem]"
           initial={{ y: 0 }}
           whileHover={{ y: -8 }}
+          transition={{ type: "spring", stiffness: 300, damping: 14 }}
         >
           <BentoCard
             icon="📦"
             iconBg="gold"
             title="De Werkvloer"
-            delay={0.2}
-            className="md:mt-12"
-            radiusClass="hub-radius-1"
+            delay={0.1}
+            variant="gold"
+            radius="b"
           >
             <p>
               Fulltime in distributiecentrum Greenport Venlo. Werkt op
-              veiligheidsschoenen.
-              <strong className="text-[#F97316] font-semibold">
-                {" "}
-                &lsquo;Pick-rates&rsquo; (targets)
+              veiligheidsschoenen.{" "}
+              <strong className="font-semibold text-orange-500">
+                &lsquo;Pick-rates&rsquo;
               </strong>{" "}
               zijn continu zichtbaar op schermen; kleurveranderingen bij haar
-              naam zorgen voor fysieke druk in haar buik.
+              naam geven een fysieke druk in haar buik.
             </p>
           </BentoCard>
         </motion.div>
 
-        <div className="md:col-span-8 md:col-start-3 relative z-20">
+        {/* Bottom, centered — blush */}
+        <div className="md:col-span-8 md:col-start-3">
           <BentoCard
             icon="❤️"
             iconBg="sage"
             title="Cultuur — Matka Polka"
-            delay={0.3}
-            className="md:-mt-8"
-            radiusClass="hub-radius-3"
+            delay={0.15}
+            variant="blush"
+            radius="a"
           >
-            <p className="text-lg">
+            <p className="text-lg leading-relaxed">
               Een diep, onzichtbaar verantwoordelijkheidsgevoel om haar familie
               in Polen financieel te ondersteunen{" "}
-              <span className="hub-sticker hub-sticker--gold text-xs !rotate-2 !inline-block -translate-y-1 mx-1">
+              <span className="hub-sticker hub-sticker--gold inline-block text-xs !rotate-2 mx-1 -translate-y-0.5">
                 remittances
               </span>
               . Zij komen op de eerste plaats.

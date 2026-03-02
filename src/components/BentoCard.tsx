@@ -3,6 +3,9 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ReactNode, useRef } from "react";
 
+type ClayVariant = "sage" | "gold" | "blush" | "sky" | "white";
+type RadiusVariant = "a" | "b" | "c" | "d" | "e" | "f";
+
 interface BentoCardProps {
   icon?: string;
   iconBg?: "sage" | "gold";
@@ -11,7 +14,50 @@ interface BentoCardProps {
   className?: string;
   span2?: boolean;
   delay?: number;
+  variant?: ClayVariant;
+  radius?: RadiusVariant;
 }
+
+// Maps variant → bg color + clay shadow CSS variable
+const variantMap: Record<
+  ClayVariant,
+  { bg: string; shadow: string; highlight: string }
+> = {
+  sage: {
+    bg: "#e4e9e2",
+    shadow: "var(--clay-sage)",
+    highlight: "rgba(255,255,255,0.55)",
+  },
+  gold: {
+    bg: "#f3e5ab",
+    shadow: "var(--clay-gold)",
+    highlight: "rgba(255,255,255,0.55)",
+  },
+  blush: {
+    bg: "#f9e4e4",
+    shadow: "var(--clay-blush)",
+    highlight: "rgba(255,255,255,0.60)",
+  },
+  sky: {
+    bg: "#e0edf9",
+    shadow: "var(--clay-sky)",
+    highlight: "rgba(255,255,255,0.60)",
+  },
+  white: {
+    bg: "#ffffff",
+    shadow: "var(--clay-white)",
+    highlight: "rgba(255,255,255,0.70)",
+  },
+};
+
+const radiusMap: Record<RadiusVariant, string> = {
+  a: "var(--radius-a)",
+  b: "var(--radius-b)",
+  c: "var(--radius-c)",
+  d: "var(--radius-d)",
+  e: "var(--radius-e)",
+  f: "var(--radius-f)",
+};
 
 export default function BentoCard({
   icon,
@@ -21,36 +67,24 @@ export default function BentoCard({
   className = "",
   span2 = false,
   delay = 0,
-  radiusClass = "rounded-[32px]", // Default soft round if no asymmetric class provided
-}: BentoCardProps & { radiusClass?: string }) {
+  variant = "white",
+  radius = "e",
+}: BentoCardProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // 3D Tilt Setup
+  // Subtle 3D tilt
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  const mouseXSpring = useSpring(x, { stiffness: 200, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 200, damping: 20 });
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
 
-  // Spring config for bouncing back and smooth tracking (Elastic Physics)
-  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 15 });
-  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 15 });
-
-  // Map mouse position to rotation (-10deg to 10deg max)
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    // Calculate relative position -0.5 to 0.5
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-
-    x.set(xPct);
-    y.set(yPct);
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
   };
 
   const handleMouseLeave = () => {
@@ -58,52 +92,61 @@ export default function BentoCard({
     y.set(0);
   };
 
+  const { bg, shadow, highlight } = variantMap[variant];
+  const borderRadius = radiusMap[radius];
+
   return (
     <div
       className={`perspective-1000 ${span2 ? "hub-card-span-2" : ""} ${className}`}
+      style={{ perspective: "800px" }}
     >
       <motion.div
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        // Elastic entrance animation
-        initial={{ opacity: 0, scale: 0.8, y: 60 }}
+        // Springy entrance
+        initial={{ opacity: 0, scale: 0.85, y: 50 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-40px" }}
+        // Elastic hover LIFT + tilt
+        whileHover={{ y: -10, scale: 1.02 }}
+        // Elastic tap SQUISH down (clay press!)
+        whileTap={{ y: 4, scale: 0.96 }}
         transition={{
           type: "spring",
-          stiffness: 350,
-          damping: 18,
+          stiffness: 380,
+          damping: 14,
           delay,
         }}
-        // The 3D styles
         style={{
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
+          backgroundColor: bg,
+          boxShadow: shadow,
+          borderRadius,
+          // Claymorphic inner top-left highlight
+          backgroundImage: `linear-gradient(145deg, ${highlight} 0%, transparent 50%)`,
         }}
-        // Claymorphism Box Shadow + Dynamic Radius
-        className={`hub-card relative z-10 bg-white shadow-[var(--shadow-clay)] hover:shadow-[var(--shadow-clay-hover)] p-9 transition-shadow duration-300 ${radiusClass}`}
+        className="relative hub-card p-8 md:p-9 cursor-none transition-none"
       >
-        {/* Inner content translates slightly forward for parallax 3D effect */}
-        <motion.div style={{ transform: "translateZ(40px)" }}>
+        {/* Inner content layer for 3D parallax push */}
+        <motion.div style={{ transform: "translateZ(30px)" }}>
           {icon && (
             <div
-              className={`hub-card-icon hub-card-icon--${iconBg} inline-flex items-center justify-center w-14 h-14 mb-5 text-2xl bg-opacity-20`}
-              // Organic blob masking for the icon background
-              style={{
-                clipPath:
-                  "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                borderRadius: "50% 30% 60% 40% / 40% 50% 30% 60%",
-              }}
+              className={`inline-flex items-center justify-center w-11 h-11 rounded-2xl mb-5 text-2xl ${
+                iconBg === "gold"
+                  ? "bg-[rgba(243,229,171,0.6)]"
+                  : "bg-[rgba(228,233,226,0.7)]"
+              }`}
             >
               {icon}
             </div>
           )}
-          <h3 className="hub-card-title text-[1.1875rem] font-serif font-bold text-gray-900 mb-[0.875rem] tracking-tight">
+          <h3 className="text-[1.125rem] font-serif font-bold text-gray-900 mb-3 tracking-tight leading-snug">
             {title}
           </h3>
-          <div className="hub-card-body text-[0.9375rem] text-gray-500 leading-relaxed font-sans">
+          <div className="text-[0.9375rem] text-gray-600 leading-relaxed font-sans">
             {children}
           </div>
         </motion.div>

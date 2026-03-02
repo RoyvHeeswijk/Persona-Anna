@@ -20,44 +20,43 @@ export interface SpreadData {
   right: PageData;
 }
 
-function uid() {
-  return Math.random().toString(36).substring(2, 10);
-}
 
-function createLeftPage(variant: number): PageData {
+
+function createLeftPage(variant: number, spreadId: string): PageData {
   const counts = [3, 4, 2];
   const count = counts[variant % 3];
   return {
-    id: uid(),
+    id: `lp-${spreadId}`,
     side: 'left',
     variant: variant % 3,
     title: '',
     journalText: '',
     frames: Array.from({ length: count }, (_, i) => ({
-      id: `f-${uid()}-${i}`,
+      id: `f-${spreadId}-l-${i}`,
       imageDataUrl: null,
     })),
   };
 }
 
-function createRightPage(variant: number): PageData {
+function createRightPage(variant: number, spreadId: string): PageData {
   const counts = [2, 1, 3];
   const count = counts[variant % 3];
   return {
-    id: uid(),
+    id: `rp-${spreadId}`,
     side: 'right',
     variant: variant % 3,
     title: '',
     journalText: '',
     frames: Array.from({ length: count }, (_, i) => ({
-      id: `f-${uid()}-${i}`,
+      id: `f-${spreadId}-r-${i}`,
       imageDataUrl: null,
     })),
   };
 }
 
-function createSpread(lv: number, rv: number): SpreadData {
-  return { id: uid(), left: createLeftPage(lv), right: createRightPage(rv) };
+function createSpread(lv: number, rv: number, index: number): SpreadData {
+  const id = `spread-${index}`;
+  return { id, left: createLeftPage(lv, id), right: createRightPage(rv, id) };
 }
 
 interface BookStore {
@@ -76,11 +75,11 @@ interface BookStore {
 
 export const useBookStore = create<BookStore>((set) => ({
   spreads: [
-    createSpread(0, 0),
-    createSpread(1, 1),
-    createSpread(2, 2),
-    createSpread(0, 1),
-    createSpread(1, 2),
+    createSpread(0, 0, 0),
+    createSpread(1, 1, 1),
+    createSpread(2, 2, 2),
+    createSpread(0, 1, 3),
+    createSpread(1, 2, 4),
   ],
   currentSpreadIndex: 0,
 
@@ -96,9 +95,10 @@ export const useBookStore = create<BookStore>((set) => ({
 
   addSpread: () =>
     set((s) => {
-      const lv = s.spreads.length % 3;
-      const rv = (s.spreads.length + 1) % 3;
-      return { spreads: [...s.spreads, createSpread(lv, rv)] };
+      const idx = s.spreads.length;
+      const lv = idx % 3;
+      const rv = (idx + 1) % 3;
+      return { spreads: [...s.spreads, createSpread(lv, rv, idx)] };
     }),
 
   updateTitle: (si, side, title) =>

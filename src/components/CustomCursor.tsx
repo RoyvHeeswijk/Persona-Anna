@@ -6,18 +6,29 @@ import { motion, useSpring } from "framer-motion";
 export default function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
 
   // Use springs for a smooth, organic lag effect
-  const springX = useSpring(position.x, {
+  const springX = useSpring(0, {
     stiffness: 500,
     damping: 28,
     mass: 0.5,
   });
-  const springY = useSpring(position.y, {
+  const springY = useSpring(0, {
     stiffness: 500,
     damping: 28,
     mass: 0.5,
   });
+
+  useEffect(() => {
+    // Wrap in requestAnimationFrame to avoid "Calling setState synchronously within an effect" warning
+    const raf = requestAnimationFrame(() => {
+      setMounted(true);
+      setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -50,11 +61,8 @@ export default function CustomCursor() {
     };
   }, [springX, springY]);
 
-  // Don't render cursor on touch devices to avoid ghost taps
-  if (
-    typeof window !== "undefined" &&
-    window.matchMedia("(pointer: coarse)").matches
-  ) {
+  // Don't render until mounted to match server state, or on touch devices
+  if (!mounted || isTouch) {
     return null;
   }
 
