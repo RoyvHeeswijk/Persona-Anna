@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Caveat, Patrick_Hand } from "next/font/google";
+import {
+  Caveat,
+  Patrick_Hand,
+  Playfair_Display,
+  Inter,
+} from "next/font/google";
 import "./globals.css";
 
 const caveat = Caveat({
@@ -14,9 +19,23 @@ const patrickHand = Patrick_Hand({
   weight: ["400"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "latin-ext"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
-  title: "My Scrapbook",
-  description: "Interactive digital scrapbook journal",
+  title: "Empathy Hub — Anna",
+  description:
+    "Een rijke onderzoeksbron voor designstudenten. Ontdek het leven van Anna, een 34-jarige Poolse logistiek medewerker in Venlo.",
 };
 
 export default function RootLayout({
@@ -25,8 +44,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${caveat.variable} ${patrickHand.variable} antialiased`}>
+    <html lang="nl" className="scroll-smooth">
+      <body
+        className={`${caveat.variable} ${patrickHand.variable} ${playfair.variable} ${inter.variable} antialiased`}
+      >
         {children}
       </body>
     </html>
