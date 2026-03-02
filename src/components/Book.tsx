@@ -49,6 +49,20 @@ export default function Book() {
 
   return (
     <div className="flex flex-col items-center gap-5 py-6 px-4 w-full">
+      {/* Table ambiance items */}
+      <div className="table-items">
+        <div className="string-lights" />
+        <div className="table-pen" />
+        <div className="table-pen-2" />
+        <div className="table-tape-rolls">
+          <div className="tape-roll" style={{ borderColor: '#E88CA5' }} />
+          <div className="tape-roll" style={{ borderColor: '#5CB8B2' }} />
+          <div className="tape-roll" style={{ borderColor: '#F0D780' }} />
+          <div className="tape-roll" style={{ borderColor: '#A5D6A7' }} />
+          <div className="tape-roll" style={{ borderColor: '#C9A0DC' }} />
+        </div>
+      </div>
+
       {/* Book */}
       <div className="book-outer">
         <div className="book-wrapper">
