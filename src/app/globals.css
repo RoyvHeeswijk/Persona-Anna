@@ -681,13 +681,31 @@ body {
 }
 
 /* =============================================
-   EMPATHY HUB â€” Museum Style
+   EMPATHY HUB — Museum Style
    ============================================= */
 
+/* ===== CLAYMORPHISM & ORGANIC UTILITIES ===== */
+:root {
+  /* Claymorphism: soft outer shadow + thick bright top-inner shadow + thick dark bottom-inner shadow */
+  --shadow-clay:
+    8px 8px 24px rgba(0, 0, 0, 0.04), inset -6px -6px 16px rgba(0, 0, 0, 0.04),
+    inset 6px 6px 16px rgba(255, 255, 255, 1);
+
+  --shadow-clay-hover:
+    12px 12px 32px rgba(0, 0, 0, 0.08),
+    inset -8px -8px 20px rgba(0, 0, 0, 0.05),
+    inset 8px 8px 20px rgba(255, 255, 255, 1);
+
+  /* For darker/tinted clay elements */
+  --shadow-clay-tinted:
+    6px 6px 18px rgba(0, 0, 0, 0.03), inset -4px -4px 12px rgba(0, 0, 0, 0.03),
+    inset 4px 4px 12px rgba(255, 255, 255, 0.7);
+}
+
+/* Base background update for clay contrast */
 .hub {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  background-color: var(--color-hub-bg);
-  /* Safe CSS gradient to replace the blobs without overflow issues */
+  background-color: #fafaf8; /* Softer, slightly warm off-white */
   background-image:
     radial-gradient(
       circle at 15% 15%,
@@ -710,6 +728,23 @@ body {
   cursor: none; /* Hide default cursor for custom one */
   position: relative;
   min-height: 100vh;
+}
+
+/* Assorted Asymmetric Organic Radii */
+.hub-radius-1 {
+  border-radius: 40px 14px 44px 18px / 30px 40px 30px 20px;
+}
+.hub-radius-2 {
+  border-radius: 12px 40px 20px 44px / 20px 30px 40px 30px;
+}
+.hub-radius-3 {
+  border-radius: 38px 24px 14px 40px / 40px 24px 38px 24px;
+}
+.hub-radius-4 {
+  border-radius: 20px 38px 40px 14px / 30px 40px 30px 40px;
+}
+.hub-radius-5 {
+  border-radius: 44px 18px 40px 14px / 30px 20px 30px 40px;
 }
 
 /* ===== TACTILE PAPER GRAIN ===== */
@@ -737,21 +772,9 @@ body {
   cursor: none; /* Let CustomCursor handle interactions */
 }
 
-/* ===== NEUMORPHIC UTILITIES ===== */
-:root {
-  --shadow-neumorphic:
-    8px 8px 16px rgba(0, 0, 0, 0.04), -8px -8px 16px rgba(255, 255, 255, 0.8);
-  --shadow-neumorphic-hover:
-    12px 12px 24px rgba(0, 0, 0, 0.06), -12px -12px 24px rgba(255, 255, 255, 1);
-  --shadow-neumorphic-inset:
-    inset 4px 4px 8px rgba(0, 0, 0, 0.04),
-    inset -4px -4px 8px rgba(255, 255, 255, 0.8);
-}
-
 /* ===== STICKER AESTHETIC ===== */
 .hub-sticker {
   display: inline-block;
-  background: var(--color-hub-white);
   padding: 0.25rem 0.75rem;
   border: 1px solid var(--color-hub-border);
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.06);

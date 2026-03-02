@@ -30,7 +30,13 @@ export default function ContextSection() {
         </svg>
 
         <div className="md:col-span-5 relative z-10">
-          <BentoCard icon="🏠" iconBg="sage" title="Huisvesting" delay={0.1}>
+          <BentoCard
+            icon="🏠"
+            iconBg="sage"
+            title="Huisvesting"
+            delay={0.1}
+            radiusClass="hub-radius-4"
+          >
             <p className="mb-4">
               Wekker om 05:30 voor de badkamer-rij. Woont met 5 anderen. Muren
               zo dun dat je een lepel hoort vallen.{" "}
@@ -56,6 +62,7 @@ export default function ContextSection() {
             title="De Werkvloer"
             delay={0.2}
             className="md:mt-12"
+            radiusClass="hub-radius-1"
           >
             <p>
               Fulltime in distributiecentrum Greenport Venlo. Werkt op
@@ -77,6 +84,7 @@ export default function ContextSection() {
             title="Cultuur — Matka Polka"
             delay={0.3}
             className="md:-mt-8"
+            radiusClass="hub-radius-3"
           >
             <p className="text-lg">
               Een diep, onzichtbaar verantwoordelijkheidsgevoel om haar familie

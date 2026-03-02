@@ -21,16 +21,17 @@ export default function BentoCard({
   className = "",
   span2 = false,
   delay = 0,
-}: BentoCardProps) {
+  radiusClass = "rounded-[32px]", // Default soft round if no asymmetric class provided
+}: BentoCardProps & { radiusClass?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   // 3D Tilt Setup
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Spring config for bouncing back and smooth tracking
-  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
-  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
+  // Spring config for bouncing back and smooth tracking (Elastic Physics)
+  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 15 });
+  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 15 });
 
   // Map mouse position to rotation (-10deg to 10deg max)
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
@@ -65,29 +66,36 @@ export default function BentoCard({
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        // Springy entrance animation
-        initial={{ opacity: 0, scale: 0.9, y: 40 }}
+        // Elastic entrance animation
+        initial={{ opacity: 0, scale: 0.8, y: 60 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
+        viewport={{ once: true, margin: "-100px" }}
         transition={{
           type: "spring",
-          stiffness: 100,
-          damping: 20,
+          stiffness: 350,
+          damping: 18,
           delay,
         }}
-        // The 3D and floating shadow styles
+        // The 3D styles
         style={{
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className="hub-card relative z-10 bg-white shadow-[var(--shadow-neumorphic)] hover:shadow-[var(--shadow-neumorphic-hover)] hover:-translate-y-2 border border-gray-100 rounded-[24px] p-9 transition-shadow duration-500 ease-out"
+        // Claymorphism Box Shadow + Dynamic Radius
+        className={`hub-card relative z-10 bg-white shadow-[var(--shadow-clay)] hover:shadow-[var(--shadow-clay-hover)] p-9 transition-shadow duration-300 ${radiusClass}`}
       >
         {/* Inner content translates slightly forward for parallax 3D effect */}
         <motion.div style={{ transform: "translateZ(40px)" }}>
           {icon && (
             <div
-              className={`hub-card-icon hub-card-icon--${iconBg} inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-5 text-2xl bg-opacity-20`}
+              className={`hub-card-icon hub-card-icon--${iconBg} inline-flex items-center justify-center w-14 h-14 mb-5 text-2xl bg-opacity-20`}
+              // Organic blob masking for the icon background
+              style={{
+                clipPath:
+                  "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
+                borderRadius: "50% 30% 60% 40% / 40% 50% 30% 60%",
+              }}
             >
               {icon}
             </div>

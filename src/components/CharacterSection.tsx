@@ -37,6 +37,7 @@ export default function CharacterSection() {
             iconBg="sage"
             title="Details"
             delay={0.1}
+            radiusClass="hub-radius-1"
           >
             <p className="relative">
               Ze praat zachtjes tegen haar kruidenplantjes op de vensterbank. Ze
@@ -58,6 +59,7 @@ export default function CharacterSection() {
             iconBg="gold"
             title="Hobby's"
             delay={0.2}
+            radiusClass="hub-radius-2"
           >
             <p>
               Kijkt &lsquo;Heel Holland Bakt&rsquo; met ondertiteling om de taal
@@ -75,6 +77,7 @@ export default function CharacterSection() {
             iconBg="sage"
             title="Dromen"
             delay={0.3}
+            radiusClass="hub-radius-5"
           >
             {/* Small floating doodle */}
             <svg
@@ -102,6 +105,7 @@ export default function CharacterSection() {
             iconBg="gold"
             title="Gewoontes"
             delay={0.4}
+            radiusClass="hub-radius-3"
           >
             <p>
               Bewaart elk bonnetje, lijstje en elke foto op haar telefoon als
