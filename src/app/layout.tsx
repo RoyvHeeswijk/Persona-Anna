@@ -6,6 +6,7 @@ import {
   Inter,
 } from "next/font/google";
 import "./globals.css";
+import CustomCursor from "@/components/CustomCursor";
 
 const caveat = Caveat({
   variable: "--font-caveat",
@@ -46,9 +47,10 @@ export default function RootLayout({
   return (
     <html lang="nl" className="scroll-smooth">
       <body
-        className={`${caveat.variable} ${patrickHand.variable} ${playfair.variable} ${inter.variable} antialiased`}
+        className={`${caveat.variable} ${patrickHand.variable} ${playfair.variable} ${inter.variable} antialiased selection:bg-[#E4E9E2] selection:text-black`}
       >
         {children}
+        <CustomCursor />
       </body>
     </html>
   );
