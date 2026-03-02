@@ -1,0 +1,617 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-mint: #B2DFDB;
+  --color-mint-light: #E0F2F1;
+  --color-sage: #8FBC8F;
+  --color-pastel-green: #C8E6C9;
+  --color-dark-green: #2E7D32;
+  --color-forest: #1B5E20;
+  --color-cream: #FFFDF5;
+  --font-hand: var(--font-caveat);
+  --font-journal: var(--font-patrick-hand);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== LIGHT PINE WOOD TABLE ===== */
+.wood-table {
+  background-color: #c9a87c;
+  background-image:
+    repeating-linear-gradient(
+      88deg,
+      transparent,
+      transparent 2px,
+      rgba(160, 120, 60, 0.06) 2px,
+      rgba(160, 120, 60, 0.06) 4px
+    ),
+    repeating-linear-gradient(
+      178deg,
+      transparent,
+      transparent 40px,
+      rgba(140, 100, 50, 0.04) 40px,
+      rgba(140, 100, 50, 0.04) 41px
+    ),
+    radial-gradient(ellipse at 20% 60%, rgba(100, 70, 30, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 75% 30%, rgba(100, 70, 30, 0.06) 0%, transparent 40%),
+    linear-gradient(
+      90deg,
+      #c9a87c 0%,
+      #d4b68a 12%,
+      #c9a87c 25%,
+      #d9bd93 40%,
+      #c9a87c 55%,
+      #d4b68a 70%,
+      #c9a87c 85%,
+      #d9bd93 100%
+    );
+}
+
+/* ===== BOOK — flat open, no leather cover ===== */
+.book-outer {
+  perspective: 2500px;
+  perspective-origin: center center;
+}
+
+.book-wrapper {
+  width: min(92vw, 1200px);
+  aspect-ratio: 8 / 5;
+  position: relative;
+}
+
+.book-cover {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: 6px;
+  padding: 0;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.22),
+    0 2px 8px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+.book-pages-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+/* ===== WHITE PAGES ===== */
+.book-page {
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+
+.book-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 15%, rgba(240, 230, 210, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.page-left {
+  border-radius: 4px 0 0 4px;
+  box-shadow:
+    inset -10px 0 25px -12px rgba(0, 0, 0, 0.06),
+    -1px 0 0 rgba(0, 0, 0, 0.03);
+}
+
+.page-right {
+  border-radius: 0 4px 4px 0;
+  box-shadow:
+    inset 10px 0 25px -12px rgba(0, 0, 0, 0.06),
+    1px 0 0 rgba(0, 0, 0, 0.03);
+}
+
+/* Stacked page edges visible underneath */
+.book-cover::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  bottom: -3px;
+  height: 6px;
+  background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
+  border-radius: 0 0 4px 4px;
+  z-index: -1;
+}
+.book-cover::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: -5px;
+  height: 5px;
+  background: linear-gradient(180deg, #ebebeb 0%, #ddd 100%);
+  border-radius: 0 0 3px 3px;
+  z-index: -2;
+}
+
+/* ===== PAGE CONTENT ===== */
+.page-inner {
+  width: 100%;
+  height: 100%;
+  padding: 5% 6%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== TITLE ===== */
+.title-input {
+  font-family: var(--font-caveat), cursive;
+  font-size: clamp(16px, 2.5vw, 30px);
+  font-weight: 600;
+  color: #333;
+  border: none;
+  border-bottom: 2px dashed #e0e0e0;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  padding: 2px 0;
+  margin-bottom: 4px;
+  transition: border-color 0.3s;
+  flex-shrink: 0;
+}
+
+.title-input:focus {
+  border-bottom-color: #e88ca5;
+  border-bottom-style: solid;
+}
+
+.title-input::placeholder {
+  color: #ccc;
+}
+
+/* ===== POLAROID ===== */
+.polaroid {
+  background: white;
+  padding: 6px;
+  padding-bottom: 22px;
+  box-shadow:
+    1px 2px 8px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+
+.polaroid-inner {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 2px dashed #e0e0e0;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  transition: all 0.3s;
+  overflow: hidden;
+  position: relative;
+}
+
+.polaroid-inner.has-image {
+  border: none;
+}
+
+.polaroid-inner.drag-over {
+  border-color: #e88ca5;
+  background: #fff0f3;
+  transform: scale(1.02);
+}
+
+.polaroid-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== JOURNAL BLOCK ===== */
+.journal-block {
+  background-color: #ffffff;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 23px,
+    #e8e8e8 23px,
+    #e8e8e8 24px
+  );
+  background-position: 0 12px;
+  border: 1px solid #e8e4dc;
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-family: var(--font-patrick-hand), cursive;
+  font-size: clamp(11px, 1.3vw, 16px);
+  line-height: 24px;
+  color: #444;
+  resize: none;
+  outline: none;
+  width: 100%;
+  flex: 1;
+  min-height: 40px;
+  transition: border-color 0.3s;
+}
+
+.journal-block:focus {
+  border-color: #e88ca5;
+}
+
+.journal-block::placeholder {
+  color: #ccc;
+  font-style: italic;
+}
+
+/* ===== WASHI TAPE — colorful varieties ===== */
+.washi-tape {
+  position: absolute;
+  height: 18px;
+  min-width: 50px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.88;
+}
+
+/* Pink/red washi */
+.washi-pink {
+  background: linear-gradient(
+    135deg,
+    rgba(232, 140, 165, 0.75) 0%,
+    rgba(240, 160, 180, 0.8) 50%,
+    rgba(232, 140, 165, 0.75) 100%
+  );
+}
+
+/* Yellow/gold washi */
+.washi-yellow {
+  background: linear-gradient(
+    135deg,
+    rgba(240, 215, 120, 0.8) 0%,
+    rgba(248, 228, 150, 0.85) 50%,
+    rgba(240, 215, 120, 0.8) 100%
+  );
+}
+
+/* Mint/teal washi */
+.washi-mint {
+  background: linear-gradient(
+    135deg,
+    rgba(160, 215, 210, 0.75) 0%,
+    rgba(178, 223, 219, 0.8) 50%,
+    rgba(160, 215, 210, 0.75) 100%
+  );
+}
+
+/* Green striped washi */
+.washi-green-stripe {
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(140, 195, 160, 0.7) 0px,
+    rgba(140, 195, 160, 0.7) 3px,
+    rgba(255, 255, 255, 0.5) 3px,
+    rgba(255, 255, 255, 0.5) 6px
+  );
+}
+
+/* Small washi tape on photos */
+.washi-small {
+  height: 14px;
+  min-width: 35px;
+  width: 45px;
+}
+
+/* ===== GOLD SPIRAL BINDING ===== */
+.spiral-col {
+  width: 32px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, #f0ece4 0%, #f8f4ee 40%, #f0ece4 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 4px 0;
+  position: relative;
+  z-index: 15;
+  box-shadow:
+    -3px 0 6px rgba(0, 0, 0, 0.04),
+    3px 0 6px rgba(0, 0, 0, 0.04);
+}
+
+.spiral-ring {
+  width: 24px;
+  height: 14px;
+  border: 3px solid #c5a855;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  position: relative;
+}
+
+.spiral-ring::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 240, 180, 0.6), transparent);
+  border-radius: 1px;
+}
+
+/* ===== NAVIGATION ===== */
+.nav-btn {
+  font-family: var(--font-caveat), cursive;
+  font-size: clamp(14px, 1.6vw, 20px);
+  font-weight: 600;
+  padding: 8px 22px;
+  border-radius: 24px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  user-select: none;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #fff0f3;
+  border-color: #e88ca5;
+  color: #c2637e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.nav-btn-add {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-color: #a5d6a7;
+  color: #2e7d32;
+}
+
+.nav-btn-add:hover {
+  background: linear-gradient(135deg, #c8e6c9, #a5d6a7) !important;
+  border-color: #81c784 !important;
+  color: #1b5e20 !important;
+}
+
+/* ===== PAGE CLICK ZONES ===== */
+.page-click-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  cursor: pointer;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.page-click-zone:hover {
+  opacity: 1;
+}
+
+.page-click-zone-right {
+  right: 0;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.05), transparent);
+}
+
+.page-click-zone-left {
+  left: 0;
+  border-radius: 3px 0 0 3px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.05), transparent);
+}
+
+/* ===== FLIP ===== */
+.flip-page {
+  position: absolute;
+  top: 0;
+  z-index: 20;
+  transform-style: preserve-3d;
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+/* ===== STICKERS ===== */
+.sticker {
+  position: absolute;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.12));
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* ===== DOODLES ===== */
+.doodle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.7;
+}
+
+/* ===== FRAMES ROW ===== */
+.frames-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* ===== MISC ===== */
+.page-counter {
+  font-family: var(--font-caveat), cursive;
+  font-size: clamp(14px, 1.6vw, 20px);
+  color: #aaa;
+  font-weight: 600;
+  user-select: none;
+}
+
+.drop-indicator {
+  font-family: var(--font-patrick-hand), cursive;
+  font-size: clamp(9px, 0.9vw, 12px);
+  color: #ccc;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 2px;
+}
+
+/* ===== TABLE AMBIANCE ITEMS ===== */
+.table-items {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* String lights glow */
+.string-lights {
+  position: absolute;
+  top: 0;
+  right: -2%;
+  width: 35%;
+  height: 30%;
+  background:
+    radial-gradient(circle 4px at 20% 30%, rgba(255, 240, 180, 0.5) 0%, transparent 60%),
+    radial-gradient(circle 4px at 45% 15%, rgba(255, 240, 180, 0.4) 0%, transparent 60%),
+    radial-gradient(circle 4px at 70% 40%, rgba(255, 240, 180, 0.45) 0%, transparent 60%),
+    radial-gradient(circle 3px at 85% 20%, rgba(255, 240, 180, 0.35) 0%, transparent 60%),
+    radial-gradient(circle 3px at 10% 50%, rgba(255, 240, 180, 0.3) 0%, transparent 60%);
+  opacity: 0.7;
+}
+
+/* Washi tape rolls on table */
+.table-tape-rolls {
+  position: absolute;
+  bottom: 8%;
+  right: 3%;
+  display: flex;
+  gap: 4px;
+}
+
+.tape-roll {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 4px solid;
+  opacity: 0.6;
+}
+
+/* Pen on table */
+.table-pen {
+  position: absolute;
+  top: 15%;
+  left: 2%;
+  width: 120px;
+  height: 8px;
+  background: linear-gradient(90deg, #333 0%, #444 80%, #e88ca5 85%, #e88ca5 100%);
+  border-radius: 4px 2px 2px 4px;
+  transform: rotate(-15deg);
+  opacity: 0.5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.table-pen-2 {
+  position: absolute;
+  top: 20%;
+  left: 1%;
+  width: 110px;
+  height: 7px;
+  background: linear-gradient(90deg, #555 0%, #666 80%, #f0d780 85%, #f0d780 100%);
+  border-radius: 4px 2px 2px 4px;
+  transform: rotate(-8deg);
+  opacity: 0.45;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .book-wrapper {
+    width: 98vw;
+  }
+
+  .spiral-col {
+    width: 22px;
+  }
+
+  .spiral-ring {
+    width: 18px;
+    height: 10px;
+    border-width: 2.5px;
+  }
+
+  .polaroid {
+    padding: 3px;
+    padding-bottom: 12px;
+  }
+
+  .page-inner {
+    padding: 4% 5%;
+    gap: 4px;
+  }
+
+  .nav-btn {
+    padding: 6px 14px;
+  }
+
+  .table-pen,
+  .table-pen-2,
+  .string-lights,
+  .table-tape-rolls {
+    display: none;
+  }
+}
