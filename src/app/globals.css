@@ -687,6 +687,24 @@ body {
 .hub {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   background-color: var(--color-hub-bg);
+  /* Safe CSS gradient to replace the blobs without overflow issues */
+  background-image:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(228, 233, 226, 0.4) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 85% 35%,
+      rgba(243, 229, 171, 0.3) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 50% 85%,
+      rgba(228, 233, 226, 0.35) 0%,
+      transparent 50%
+    );
+  background-attachment: fixed;
   color: var(--color-hub-text);
   line-height: 1.75;
   cursor: none; /* Hide default cursor for custom one */
@@ -695,15 +713,21 @@ body {
 }
 
 /* ===== TACTILE PAPER GRAIN ===== */
-.hub::after {
+.hub::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 0;
   pointer-events: none;
   opacity: 0.4;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Ensure all child content sits above the pseudo-element background */
+.hub > * {
+  position: relative;
+  z-index: 10;
 }
 
 /* Custom Cursor Overrides */
