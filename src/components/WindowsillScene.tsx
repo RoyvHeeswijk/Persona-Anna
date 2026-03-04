@@ -2,48 +2,76 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface StillLifeItem {
   id: string;
-  label: string;
   title: string;
   body: string;
+  imageSrc: string;
+  // Position & sizing
+  top: string;
+  left: string;
+  width: number;
+  height: number;
+  rotate: number;
   floatDelay: number;
-  popoverSide: "left" | "right";
+  // Popover position relative to item
+  popover: { top: string; left: string };
 }
 
 const items: StillLifeItem[] = [
   {
-    id: "ring",
-    label: "01 — Ring",
-    title: "Tastbare geruststelling",
-    body: "Een cadeau van haar moeder. Wanneer instructies in het magazijn te snel gaan in het Nederlands, of wanneer ze onzeker is tijdens een stand-up, friemelt ze onbewust aan deze ring. Het is haar anker in momenten van cognitieve overbelasting.",
-    floatDelay: 0,
-    popoverSide: "right",
-  },
-  {
     id: "plant",
-    label: "02 — Plantje",
     title: "Het enige eigendom",
     body: "In een huis waar ze alles deelt, is deze vensterbank haar enige domein. Ze praat zachtjes tegen de kruiden. Het verzorgen van iets dat groeit, herinnert haar aan haar droom: een eigen plekje met een balkon.",
-    floatDelay: 0.8,
-    popoverSide: "left",
+    imageSrc: "/objects/plant.png",
+    top: "5%",
+    left: "8%",
+    width: 220,
+    height: 260,
+    rotate: 2,
+    floatDelay: 0,
+    popover: { top: "10%", left: "calc(100% + 24px)" },
+  },
+  {
+    id: "ring",
+    title: "Tastbare geruststelling",
+    body: "Een cadeau van haar moeder. Wanneer instructies in het magazijn te snel gaan in het Nederlands, of wanneer ze onzeker is tijdens een stand-up, friemelt ze onbewust aan deze ring. Het is haar anker in momenten van cognitieve overbelasting.",
+    imageSrc: "/objects/ring.png",
+    top: "15%",
+    left: "55%",
+    width: 140,
+    height: 140,
+    rotate: 0,
+    floatDelay: 1.2,
+    popover: { top: "-20px", left: "calc(100% + 20px)" },
   },
   {
     id: "phone",
-    label: "03 — Telefoon",
     title: "De Digitale Levenslijn",
     body: "Haar controlekamer. Ze bewaart elk bonnetje en werkrooster als visueel dagboek. Toch vermijdt ze tekstzware, officiële apps uit angst voor bureaucratische fouten.",
-    floatDelay: 1.6,
-    popoverSide: "right",
+    imageSrc: "/objects/phone.png",
+    top: "52%",
+    left: "38%",
+    width: 130,
+    height: 180,
+    rotate: -5,
+    floatDelay: 0.6,
+    popover: { top: "0", left: "calc(100% + 24px)" },
   },
   {
     id: "stones",
-    label: "04 — Steentjes",
     title: "Stille getuigenissen",
     body: "Verzameld tijdens wandelingen in Venlo. Weg van de piepende scanners en de dunne muren van haar gedeelde huis, zijn dit haar enige momenten van absolute stilte.",
-    floatDelay: 2.4,
-    popoverSide: "left",
+    imageSrc: "/objects/stones.png",
+    top: "62%",
+    left: "72%",
+    width: 110,
+    height: 90,
+    rotate: 3,
+    floatDelay: 1.8,
+    popover: { top: "-60px", left: "-280px" },
   },
 ];
 
@@ -61,100 +89,99 @@ export default function WindowsillScene() {
         }}
       />
 
-      {/* Objects grid */}
-      <div className="relative grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 px-4 py-12 md:py-20">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="relative flex flex-col items-center"
-            onMouseEnter={() => setActiveId(item.id)}
-            onMouseLeave={() => setActiveId(null)}
-          >
-            {/* Floating Object */}
-            <motion.div
-              className="relative cursor-pointer w-28 h-28 md:w-36 md:h-36"
-              animate={{
-                y: [0, -8, 0],
+      {/* Asymmetric Still-Life Canvas */}
+      <div
+        className="relative w-full"
+        style={{ height: "clamp(420px, 55vw, 640px)" }}
+      >
+        {items.map((item) => {
+          const isDimmed = activeId !== null && activeId !== item.id;
+          const isActive = activeId === item.id;
+
+          return (
+            <div
+              key={item.id}
+              className="absolute"
+              style={{
+                top: item.top,
+                left: item.left,
+                width: item.width,
+                height: item.height,
               }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: item.floatDelay,
-              }}
+              onMouseEnter={() => setActiveId(item.id)}
+              onMouseLeave={() => setActiveId(null)}
             >
-              {/* Hover lift + shadow */}
+              {/* Floating Object */}
               <motion.div
-                className="relative w-full h-full flex items-center justify-center"
-                whileHover={{ y: -12, scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                className="relative w-full h-full cursor-pointer"
+                style={{ rotate: item.rotate }}
+                animate={{ y: [0, -8, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: item.floatDelay,
+                }}
               >
-                {/* Placeholder circle — replace with <Image> when PNGs are ready */}
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-dashed border-gray-300/60 bg-gradient-to-br from-gray-50 to-gray-100/50 shadow-inner" />
+                <motion.div
+                  className="relative w-full h-full"
+                  animate={{
+                    opacity: isDimmed ? 0.3 : 1,
+                    scale: isActive ? 1.05 : 1,
+                    filter: isActive
+                      ? "drop-shadow(0 12px 24px rgba(0,0,0,0.12))"
+                      : "drop-shadow(0 4px 8px rgba(0,0,0,0.04))",
+                  }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                  <Image
+                    src={item.imageSrc}
+                    alt={item.title}
+                    fill
+                    unoptimized
+                    className="object-contain"
+                    sizes={`${item.width}px`}
+                  />
+                </motion.div>
               </motion.div>
 
-              {/* Ambient occlusion shadow beneath object */}
-              <motion.div
-                className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-3 md:w-20 md:h-4 rounded-[50%] pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(ellipse, rgba(0,0,0,0.08) 0%, transparent 70%)",
-                }}
-                animate={{
-                  scaleX: activeId === item.id ? 1.3 : 1,
-                  opacity: activeId === item.id ? 0.12 : 0.06,
-                }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.div>
+              {/* Popover Card (Museum Label) — positioned freely */}
+              <AnimatePresence>
+                {isActive && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 4, scale: 0.97 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 28,
+                    }}
+                    className="absolute z-50 w-64 md:w-72 bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
+                    style={{
+                      top: item.popover.top,
+                      left: item.popover.left,
+                    }}
+                  >
+                    {/* Decorative accent line */}
+                    <div className="w-8 h-[2px] bg-[#8a9a85] rounded-full mb-3" />
 
-            {/* Museum label below object */}
-            <div className="mt-6 text-center">
-              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-gray-400">
-                {item.label}
-              </span>
+                    <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">
+                      {item.title}
+                    </h4>
+                    <p className="font-sans text-[13px] leading-[1.7] text-gray-500 tracking-[0.005em]">
+                      {item.body}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-
-            {/* Popover Card (Museum Label) */}
-            <AnimatePresence>
-              {activeId === item.id && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 4, scale: 0.97 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 28,
-                  }}
-                  className={`absolute z-50 w-72 md:w-80 top-0
-                    ${item.popoverSide === "right" ? "left-full ml-4" : "right-full mr-4"}
-                    bg-white/80 backdrop-blur-xl
-                    border border-gray-200/60
-                    rounded-2xl
-                    shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)]
-                    p-6
-                    pointer-events-none
-                  `}
-                >
-                  {/* Decorative accent line */}
-                  <div className="w-8 h-[2px] bg-[#8a9a85] rounded-full mb-4" />
-
-                  <h4 className="font-serif text-lg font-bold text-gray-900 leading-snug tracking-tight mb-3">
-                    {item.title}
-                  </h4>
-                  <p className="font-sans text-[13px] leading-[1.7] text-gray-500 tracking-[0.005em]">
-                    {item.body}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Instruction text */}
-      <div className="text-center pb-4">
+      <div className="text-center pb-4 mt-4">
         <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-gray-300">
           Hover over de objecten
         </span>
