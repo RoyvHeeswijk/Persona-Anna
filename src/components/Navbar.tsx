@@ -1,18 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 
 const NAV_ITEMS = [
   { id: "profiel", label: "Portret" },
   { id: "binnenwereld", label: "Binnenwereld" },
   { id: "leefwereld", label: "Leefwereld" },
+  { id: "het-werk", label: "Het Werk" },
+  { id: "drijfveren", label: "Drijfveren" },
   { id: "observaties", label: "Observaties" },
-  { id: "toolkit", label: "Toolkit" },
 ];
 
 export default function Navbar() {
   const [active, setActive] = useState("profiel");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  // Scroll to hide logic
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (latest > previous && latest > 150) {
+      setHidden(true); // Scrolling down past 150px
+    } else {
+      setHidden(false); // Scrolling up
+    }
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,19 +54,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="hub-nav">
-      <div className="hub-nav-inner">
-        <a
-          href="#profiel"
-          className="hub-nav-brand"
-          onClick={(e) => {
-            e.preventDefault();
-            handleClick("profiel");
-          }}
-        >
-          Empathy <span>Hub</span>
-        </a>
-
+    <motion.nav
+      className="hub-nav"
+      initial={{ y: 0 }}
+      animate={{ y: hidden ? "-200%" : 0 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+    >
+      <div className="hub-nav-inner border-0">
         <ul className="hub-nav-links">
           {NAV_ITEMS.map(({ id, label }) => (
             <li key={id}>
@@ -115,6 +123,6 @@ export default function Navbar() {
           </a>
         ))}
       </div>
-    </nav>
+    </motion.nav>
   );
 }
