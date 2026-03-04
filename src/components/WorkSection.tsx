@@ -32,12 +32,13 @@ export default function WorkSection() {
             />
           </svg>
           <p className="text-lg text-gray-400 leading-relaxed font-sans">
-            Fulltime in distributiecentrum Greenport. Fysieke druk, pick-rates
-            en communicatie in een taal die ze nog niet spreekt.
+            Het distributiecentrum draait 24/7. Op massieve, kille schermen
+            wordt ieders &apos;pick-rate&apos; live bijgehouden. Eén seconde
+            stilstaan betekent direct dalen op het Public Leaderboard.
           </p>
         </div>
 
-        {/* Scanner UI component */}
+        {/* Leaderboard Dashboard component */}
         <ScannerInterface />
       </section>
     </div>

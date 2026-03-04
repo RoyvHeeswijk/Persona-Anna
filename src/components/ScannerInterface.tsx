@@ -3,116 +3,253 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const instructions = [
-  "ANNA — RIJ 14, VAK B!",
-  "TEMPO! PICK-RATE TE LAAG.",
-  "NIEUWE ORDER: 4x PALLET 8",
-  "PAUZE VOORBIJ IN 2 MINUTEN",
-  "WAARSCHUWING: TARGET NIET GEHAALD",
-  "ANNA — MELDEN BIJ TEAMLEIDER",
-];
+type HoverState = "name" | "bar" | "clock" | null;
 
 export default function ScannerInterface() {
-  const [currentInstruction, setCurrentInstruction] = useState(0);
+  const [activeHover, setActiveHover] = useState<HoverState>(null);
+  const [timeLeft, setTimeLeft] = useState(14);
 
-  // Cycle through instructions rapidly to simulate cognitive overload
+  // Aggressive ticking clock for Anna
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentInstruction((prev) => (prev + 1) % instructions.length);
-    }, 2500); // changes every 2.5 seconds
-    return () => clearInterval(interval);
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) return 14; // Reset to 14 when it hits 0
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto h-[500px] mt-12 rounded-[var(--radius-a)] overflow-hidden shadow-2xl border-[8px] border-gray-900 font-mono flex flex-col justify-end">
-      {/* Background Pulse: soft grey <-> warning orange */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        animate={{
-          backgroundColor: ["#1f2937", "#9a3412", "#1f2937"],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
-      {/* CRT Scanline Effect */}
-      <div
-        className="absolute inset-0 z-10 pointer-events-none opacity-20 mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0) 50%, rgba(0,0,0,0.5) 50%)",
-          backgroundSize: "100% 4px",
-        }}
-      />
-
-      {/* Glare Reflection */}
-      <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent z-10 pointer-events-none skew-y-6 origin-top-left" />
-
-      {/* Screen Content Wrapper */}
-      <div className="relative z-20 p-6 sm:p-8 flex flex-col h-full text-green-400">
-        {/* Top Header */}
-        <div className="flex justify-between items-center text-xs opacity-70 mb-8 border-b border-green-400/30 pb-2">
-          <span>TERM-492 /// GREENPORT</span>
-          <span>BATT: 14% [!]</span>
+    <div className="relative w-full max-w-4xl mx-auto mt-12 mb-20 font-mono">
+      {/* 
+        The Dashboard Container 
+        Cold, minimalist, dark.
+      */}
+      <div className="bg-[#1A2432] rounded-xl overflow-hidden shadow-2xl border border-gray-800">
+        {/* Header */}
+        <div className="bg-[#131b26] px-6 py-4 border-b border-gray-800 flex justify-between items-center">
+          <div className="text-gray-400 text-xs tracking-[0.2em] font-bold">
+            LIVE PERFORMANCE /// SECTOR 4
+          </div>
+          <div className="flex gap-2 items-center">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-gray-500 text-[10px] tracking-wider">
+              SYNCED
+            </span>
+          </div>
         </div>
 
-        {/* User Info & Pick Rate */}
-        <div className="mb-auto">
-          <div className="text-sm font-bold opacity-80 mb-2">
-            OPERATOR: ANNA K.
-          </div>
-          <div className="bg-black/40 p-4 rounded-lg border border-green-500/20">
-            <div className="flex justify-between text-xs mb-2">
-              <span>HUIDIGE PICK-RATE</span>
-              <span className="text-orange-400 font-bold">
-                84% (TARGET: 105%)
-              </span>
+        {/* Table Header */}
+        <div className="grid grid-cols-[2fr_3fr_1fr] md:grid-cols-[2fr_4fr_1fr] px-6 py-3 border-b border-gray-800/50 text-[10px] text-gray-500 tracking-widest uppercase">
+          <div>Operator</div>
+          <div>Pick-Rate Target</div>
+          <div className="text-right">Status</div>
+        </div>
+
+        {/* --- ROW 1: KACPER M. (GREEN) --- */}
+        <div className="grid grid-cols-[2fr_3fr_1fr] md:grid-cols-[2fr_4fr_1fr] px-6 py-4 border-b border-gray-800/30 items-center transition-colors">
+          <div className="text-gray-300 text-sm font-bold">KACPER M.</div>
+          <div className="flex items-center gap-4">
+            <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-full bg-emerald-400 w-full" />
             </div>
-            {/* Progress Bar */}
-            <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden relative">
+            <span className="text-emerald-400 text-xs font-bold w-12 shrink-0">
+              112%
+            </span>
+          </div>
+          <div className="text-right flex justify-end">
+            <span className="px-2 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold rounded">
+              GROEN
+            </span>
+          </div>
+        </div>
+
+        {/* --- ROW 2: ANNA K. (ORANGE) --- */}
+        {/* This row is interactive and subtly pulsing */}
+        <motion.div
+          className="relative grid grid-cols-[2fr_3fr_1fr] md:grid-cols-[2fr_4fr_1fr] px-6 py-5 border-b border-gray-800/30 items-center bg-orange-500/[0.02]"
+          animate={{
+            backgroundColor: [
+              "rgba(249, 115, 22, 0.02)",
+              "rgba(249, 115, 22, 0.06)",
+              "rgba(249, 115, 22, 0.02)",
+            ],
+          }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          {/* Anna's Name (Hoverable) */}
+          <div
+            className="text-white text-sm font-bold relative w-max cursor-pointer"
+            onMouseEnter={() => setActiveHover("name")}
+            onMouseLeave={() => setActiveHover(null)}
+          >
+            ANNA K.
+            {activeHover === "name" && (
               <motion.div
-                className="absolute top-0 left-0 bottom-0 bg-orange-500"
-                initial={{ width: "95%" }}
-                animate={{ width: ["95%", "84%", "88%", "84%"] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                layoutId="hover-outline"
+                className="absolute -inset-x-2 -inset-y-1 border border-orange-500/30 rounded"
               />
-              {/* Target Line marker */}
-              <div className="absolute top-0 bottom-0 left-[95%] w-1 bg-white z-10" />
+            )}
+          </div>
+
+          {/* Anna's Bar & Clock (Hoverable separate elements) */}
+          <div className="flex items-center gap-4">
+            {/* The Bar */}
+            <div
+              className="w-full relative cursor-pointer py-2"
+              onMouseEnter={() => setActiveHover("bar")}
+              onMouseLeave={() => setActiveHover(null)}
+            >
+              <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden relative">
+                <motion.div
+                  className="absolute inset-y-0 left-0 bg-orange-500 rounded-full"
+                  initial={{ width: "84%" }}
+                  animate={{ width: ["84%", "86%", "84%"] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+                <div className="absolute inset-y-0 left-[100%] w-[1px] bg-white/50" />
+              </div>
+              {activeHover === "bar" && (
+                <motion.div
+                  layoutId="hover-outline"
+                  className="absolute inset-0 border border-orange-500/30 rounded"
+                />
+              )}
+            </div>
+
+            {/* The Text % */}
+            <span className="text-orange-500 text-xs font-bold w-12 shrink-0">
+              84%
+            </span>
+
+            {/* The Clock */}
+            <div
+              className="hidden md:flex items-center justify-center bg-red-500/10 border border-red-500/30 text-red-500 px-2 py-1 rounded text-[10px] font-bold w-14 cursor-pointer relative"
+              onMouseEnter={() => setActiveHover("clock")}
+              onMouseLeave={() => setActiveHover(null)}
+            >
+              00:{timeLeft.toString().padStart(2, "0")}
             </div>
           </div>
-        </div>
 
-        {/* Cognitive Overload Instructions Focus Area */}
-        <div className="h-32 relative bg-red-900/20 rounded-xl border border-red-500/30 p-4 overflow-hidden flex items-center justify-center">
-          <AnimatePresence mode="popLayout">
-            <motion.div
-              key={currentInstruction}
-              initial={{ opacity: 0, x: 50, filter: "blur(4px)" }}
-              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, x: -50, filter: "blur(4px)" }}
-              transition={{ duration: 0.4, ease: "anticipate" }}
-              className="absolute text-center"
-            >
-              <div className="text-xl sm:text-2xl font-bold tracking-widest text-red-400 uppercase drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]">
-                {instructions[currentInstruction]}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Footer info */}
-        <div className="mt-6 flex justify-between items-end">
-          <div className="text-[10px] opacity-50 flex flex-col gap-1">
-            <span>&gt; SYSTEM NOMINAL</span>
-            <span>&gt; CONNECTION SECURE</span>
+          <div className="text-right flex justify-end">
+            <span className="px-2 py-1 bg-orange-500/10 text-orange-500 text-[10px] font-bold rounded animate-pulse">
+              ORANJE
+            </span>
           </div>
-          <div className="w-16 h-16 rounded-full border-4 border-green-400/20 flex items-center justify-center opacity-50">
-            <div className="w-8 h-8 rounded-full bg-green-400 animate-pulse" />
+        </motion.div>
+
+        {/* Mobile-only clock for Anna (shown below the row on small screens) */}
+        <div className="md:hidden px-6 py-2 border-b border-gray-800/30 flex justify-end">
+          <div
+            className="flex items-center justify-center bg-red-500/10 border border-red-500/30 text-red-500 px-2 py-1 rounded text-[10px] font-bold w-14 cursor-pointer"
+            onMouseEnter={() => setActiveHover("clock")}
+            onMouseLeave={() => setActiveHover(null)}
+          >
+            00:{timeLeft.toString().padStart(2, "0")}
           </div>
         </div>
+
+        {/* --- ROW 3: PIOTR W. (RED) --- */}
+        <div className="grid grid-cols-[2fr_3fr_1fr] md:grid-cols-[2fr_4fr_1fr] px-6 py-4 border-b border-transparent items-center">
+          <div className="text-gray-400 text-sm font-bold">PIOTR W.</div>
+          <div className="flex items-center gap-4">
+            <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-full bg-red-500 w-[71%]" />
+            </div>
+            <span className="text-red-500 text-xs font-bold w-12 shrink-0">
+              71%
+            </span>
+          </div>
+          <div className="text-right flex justify-end">
+            <span className="px-2 py-1 bg-red-500/10 text-red-500 text-[10px] font-bold rounded">
+              ROOD
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 
+        The Popovers (Museum-style editorial cards)
+        Absolute positioned relative to the container.
+      */}
+      <AnimatePresence>
+        {/* Name Hook */}
+        {activeHover === "name" && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 5, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+            className="absolute z-50 w-64 md:w-72 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none left-4 text-left"
+            style={{ top: "35%" }}
+          >
+            <div className="w-8 h-[2px] bg-gray-900 rounded-full mb-3" />
+            <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">
+              Schuldgevoel & Systeemangst
+            </h4>
+            <p className="font-sans text-[13px] leading-[1.7] text-gray-500 tracking-[0.005em]">
+              Een lage score betekent minder uren, wat direct betekent dat ze
+              haar huis kan verliezen (koppelbeding) én minder geld naar haar
+              moeder in Polen kan sturen.
+            </p>
+          </motion.div>
+        )}
+
+        {/* Bar Hook */}
+        {activeHover === "bar" && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 5, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+            className="absolute z-50 w-64 md:w-72 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none left-1/3 text-left"
+            style={{ top: "35%" }}
+          >
+            <div className="w-8 h-[2px] bg-orange-500 rounded-full mb-3" />
+            <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">
+              De prijs van Oranje
+            </h4>
+            <p className="font-sans text-[13px] leading-[1.7] text-gray-500 tracking-[0.005em]">
+              Ze gaat automatisch sneller lopen en tillen, de pijn in haar rug
+              negerend, puur om weer in het groen te komen. Ze voelt zich een
+              falende robot.
+            </p>
+          </motion.div>
+        )}
+
+        {/* Clock Hook */}
+        {activeHover === "clock" && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 5, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+            className="absolute z-50 w-64 md:w-72 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none right-12 text-left"
+            style={{ top: "35%" }}
+          >
+            <div className="w-8 h-[2px] bg-red-500 rounded-full mb-3" />
+            <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">
+              Onzichtbaar willen blijven
+            </h4>
+            <p className="font-sans text-[13px] leading-[1.7] text-gray-500 tracking-[0.005em]">
+              De klok betekent dat de teamleider meekijkt. Haar grootste angst
+              is dat hij in snel Nederlands tegen haar begint te praten. Ze
+              werkt harder om maar niet op te vallen.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="text-center mt-6">
+        <span className="text-[11px] font-mono text-gray-500 uppercase tracking-widest">
+          Hover over Anna&apos;s rij details
+        </span>
       </div>
     </div>
   );
