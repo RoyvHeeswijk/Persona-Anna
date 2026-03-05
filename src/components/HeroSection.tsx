@@ -7,7 +7,7 @@ export default function HeroSection() {
   return (
     <section
       id="profiel"
-      className="hub-hero relative mt-0 pt-24 pb-20 px-6 md:px-16 max-w-[1200px] mx-auto"
+      className="hub-hero relative mt-0 pt-8 pb-20 px-6 md:px-16 max-w-[1200px] mx-auto"
     >
       {/* Inline SVG blob mask definition */}
       <svg width="0" height="0" className="absolute">
@@ -77,7 +77,7 @@ export default function HeroSection() {
             }}
             whileHover={{ rotate: 0, scale: 1.06 }}
           >
-            &quot;Ik ben een doorzetter, hè?&quot;
+            &quot;Niet klagen, gewoon doorgaan. Ik doe het voor hen.&quot;
           </motion.div>
         </motion.div>
 
@@ -130,27 +130,22 @@ export default function HeroSection() {
           {/* Inline stat chips — clay style */}
           <div className="flex flex-wrap gap-3 mb-10">
             {[
-              { label: "34 jaar", icon: "🎂" },
-              { label: "Venlo", icon: "📍" },
-              { label: "Polen 🇵🇱 → NL 🇳🇱", icon: "" },
-              { label: "Logistiek", icon: "📦" },
-            ].map((chip) => (
+              "Orderpicker",
+              "Flexcontract",
+              "Loyale Doorzetter",
+              "Onzichtbare Pion",
+            ].map((tag) => (
               <motion.span
-                key={chip.label}
-                whileHover={{ y: -3, scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                key={tag}
+                whileHover={{ y: -1, backgroundColor: "#ffffff" }}
                 transition={{ type: "spring", stiffness: 400, damping: 12 }}
-                className="px-4 py-2 text-sm font-medium text-gray-700 cursor-none"
+                className="px-3 py-1.5 text-[11px] font-bold tracking-[0.08em] uppercase text-gray-500 cursor-none border border-gray-200"
                 style={{
-                  backgroundColor: "#e4e9e2",
-                  borderRadius: "var(--radius-f)",
-                  boxShadow: "var(--clay-sage)",
-                  backgroundImage:
-                    "linear-gradient(145deg, rgba(255,255,255,0.5) 0%, transparent 50%)",
+                  backgroundColor: "#F9FAF8",
+                  borderRadius: "2px",
                 }}
               >
-                {chip.icon && <span className="mr-1">{chip.icon}</span>}
-                {chip.label}
+                {tag}
               </motion.span>
             ))}
           </div>

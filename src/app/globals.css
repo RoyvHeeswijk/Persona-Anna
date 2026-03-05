@@ -932,7 +932,7 @@ body {
   min-height: 100vh;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 8rem 2.5rem 6rem;
+  padding: 4rem 2.5rem 6rem;
 }
 
 .hub-hero-image-wrap {
@@ -1330,7 +1330,7 @@ body {
 @media (max-width: 768px) {
   .hub-hero {
     grid-template-columns: 1fr;
-    padding: 6rem 1.5rem 3rem;
+    padding: 3rem 1.5rem 3rem;
     min-height: auto;
     gap: 2.5rem;
   }

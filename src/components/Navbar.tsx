@@ -9,7 +9,6 @@ const NAV_ITEMS = [
   { id: "leefwereld", label: "Leefwereld" },
   { id: "het-werk", label: "Het Werk" },
   { id: "drijfveren", label: "Drijfveren" },
-  { id: "observaties", label: "Observaties" },
 ];
 
 export default function Navbar() {

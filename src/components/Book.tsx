@@ -55,13 +55,6 @@ export default function Book() {
 
   return (
     <div className="relative flex flex-col items-center gap-5 py-6 px-4 w-full">
-      {/* Table ambiance items */}
-      <div className="table-items">
-        <div className="string-lights" />
-        <div className="table-pen" />
-        <div className="table-pen-2" />
-      </div>
-
       {/* Book */}
       <div className="book-outer">
         <div className="book-wrapper">

@@ -82,10 +82,7 @@ export default function ParticleFlow() {
       {/* Sticky container holds the visualization in the viewport as we scroll through the tall div */}
       <div className="sticky top-0 w-full h-[700px] flex flex-col items-center justify-start pt-4 overflow-hidden">
         {/* Main interactive visualization wrapper */}
-        <div className="relative w-full max-w-5xl mx-auto h-[400px] flex items-center justify-between px-4 sm:px-12 md:px-24 mt-4 md:mt-8">
-          {/* Background connection line */}
-          <div className="absolute top-1/2 left-24 right-24 md:left-40 md:right-40 h-[1px] bg-gradient-to-r from-[#8a9a85]/20 via-[#e0cc7a]/30 to-[#e0cc7a]/60 -translate-y-1/2 z-0" />
-
+        <div className="relative w-full max-w-5xl mx-auto h-[400px] flex items-center justify-between px-4 sm:px-12 md:px-24 mt-4">
           {/* ========================================================= */}
           {/* LEFT SCENE: ANNA (VENLO)                                  */}
           {/* ========================================================= */}
@@ -114,7 +111,7 @@ export default function ParticleFlow() {
           {/* ========================================================= */}
           {/* THE GOLDEN PARTICLE FLOW                                  */}
           {/* ========================================================= */}
-          <div className="absolute top-1/2 left-[20%] right-[20%] h-32 -translate-y-1/2 z-0 pointer-events-none overflow-visible">
+          <div className="absolute top-[62%] left-[15%] right-[15%] h-32 -translate-y-2/3 z-0 pointer-events-none overflow-visible">
             {isMounted &&
               particleData.map((data, i) => (
                 <motion.div
@@ -181,13 +178,13 @@ export default function ParticleFlow() {
 
           {/* LABEL 1: Left / Anna */}
           <motion.div
-            className="hidden md:block absolute top-[90%] left-0 w-72 bg-white border border-gray-100 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] p-6 z-20"
+            className="hidden md:block absolute top-[90%] left-0 w-72 bg-white border border-gray-100 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.08)] p-6 z-20"
             style={{ y: yLabel1 }}
           >
-            <h4 className="font-serif text-[15px] font-bold text-[#8a9a85] mb-2 tracking-wide uppercase">
+            <h4 className="font-serif text-[16px] font-bold text-gray-800 mb-2">
               De Financiële Leegte
             </h4>
-            <p className="font-sans text-[13px] leading-[1.6] text-gray-500">
+            <p className="font-sans text-[14px] leading-[1.6] text-gray-600">
               Ze stuurt bijna 70% van haar loon direct naar huis en weigert geld
               uit te geven aan eigen comfort. Haar buffer in Nederland is
               minimaal.
@@ -211,13 +208,13 @@ export default function ParticleFlow() {
 
           {/* LABEL 3: Right / Poland */}
           <motion.div
-            className="hidden md:block absolute top-[90%] right-0 w-72 bg-[#1A2432] border border-gray-800 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.2)] p-6 z-20"
+            className="hidden md:block absolute top-[90%] right-0 w-72 bg-white border border-gray-100 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.08)] p-6 z-20"
             style={{ y: yLabel3 }}
           >
-            <h4 className="font-serif text-[15px] font-bold text-[#e0cc7a] mb-2 tracking-wide uppercase">
+            <h4 className="font-serif text-[16px] font-bold text-gray-800 mb-2">
               Afhankelijke Stabiliteit
             </h4>
-            <p className="font-sans text-[13px] leading-[1.6] text-gray-400">
+            <p className="font-sans text-[14px] leading-[1.6] text-gray-600">
               Haar geld betaalt de medicijnen van haar moeder en schoolspullen
               voor haar zusje. Hun onbezorgde zekerheid leunt volledig op
               Anna&apos;s harde targets.
@@ -227,19 +224,19 @@ export default function ParticleFlow() {
 
         {/* Mobile-only visible labels rendering in a stack if viewport is too small to render absolute side labels */}
         <div className="md:hidden mt-20 flex flex-col gap-4 px-6 w-full max-w-sm pointer-events-none">
-          <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-            <h4 className="font-serif text-[13px] font-bold text-[#8a9a85] mb-1 uppercase">
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+            <h4 className="font-serif text-[16px] font-bold text-gray-800 mb-2">
               De Financiële Leegte
             </h4>
-            <p className="font-sans text-[12px] text-gray-500">
+            <p className="font-sans text-[14px] leading-[1.6] text-gray-600">
               Ze stuurt 70% van haar loon direct naar huis.
             </p>
           </div>
-          <div className="bg-[#1A2432] rounded-xl p-4 shadow-sm">
-            <h4 className="font-serif text-[13px] font-bold text-[#e0cc7a] mb-1 uppercase">
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+            <h4 className="font-serif text-[16px] font-bold text-gray-800 mb-2">
               Afhankelijke Stabiliteit
             </h4>
-            <p className="font-sans text-[12px] text-gray-400">
+            <p className="font-sans text-[14px] leading-[1.6] text-gray-600">
               Hun zekerheid leunt volledig op Anna&apos;s targets.
             </p>
           </div>

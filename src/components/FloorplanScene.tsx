@@ -11,6 +11,7 @@ type HotspotId =
   | "bed"
   | "muren"
   | "zolder"
+  | "contract"
   | null;
 
 type Floor = "zolder" | "eerste" | "begane";
@@ -1431,12 +1432,42 @@ export default function FloorplanScene() {
         </AnimatePresence>
 
         {/* ═══ CONTRACT STAMP ═══ */}
-        <div className="absolute bottom-2 right-4 md:bottom-3 md:right-6 z-30 rotate-[-3deg] pointer-events-none">
-          <div className="border-2 border-red-400/60 rounded-lg px-4 py-2 bg-white/60 backdrop-blur-sm shadow-sm">
+        <div
+          className="absolute bottom-2 right-4 md:bottom-3 md:right-6 z-30 rotate-[-3deg] cursor-pointer"
+          onMouseEnter={() => setActive("contract")}
+          onMouseLeave={() => setActive(null)}
+        >
+          <div className="border-2 border-red-400/60 rounded-lg px-4 py-2 bg-white/60 backdrop-blur-sm shadow-sm hover:bg-white/90 transition-colors">
             <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-[0.15em] text-red-500/80">
               ⚠ Woonruimte gekoppeld aan werkcontract
             </span>
           </div>
+
+          <AnimatePresence>
+            {active === "contract" && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                className="absolute z-[100] w-64 md:w-80 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none right-0 bottom-full mb-3 text-left rotate-[3deg] font-sans whitespace-normal"
+              >
+                <div className="w-8 h-[2px] bg-red-500 rounded-full mb-3" />
+                <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">
+                  Het Koppelbeding
+                </h4>
+                <p className="font-sans text-[13px] leading-[1.7] text-gray-500 tracking-[0.005em]">
+                  Dit bed is geen veilige haven, maar een tijdelijke bruikleen
+                  van de baas. De wet die werk en wonen scheidt, geldt hier
+                  niet. Als Anna&apos;s naam op het scherm in het
+                  distributiecentrum te lang rood blijft, verliest ze niet
+                  alleen haar loon, maar moet ze binnen 24 uur haar koffer
+                  pakken. De angst voor dakloosheid is de motor achter haar
+                  snelheid.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 

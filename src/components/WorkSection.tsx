@@ -32,9 +32,9 @@ export default function WorkSection() {
             />
           </svg>
           <p className="text-lg text-gray-400 leading-relaxed font-sans">
-            Het distributiecentrum draait 24/7. Op massieve, kille schermen
-            wordt ieders &apos;pick-rate&apos; live bijgehouden. Eén seconde
-            stilstaan betekent direct dalen op het Public Leaderboard.
+            Het distributiecentrum draait 24/7. Op publieke, massieve schermen
+            wordt ieders &apos;pick-rate&apos; live bijgehouden. Eén blik op dit
+            bord bepaalt haar bestaanszekerheid voor de volgende week.
           </p>
         </div>
 
