@@ -77,10 +77,10 @@ export default function ParticleFlow() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[1400px] flex flex-col items-center justify-start"
+      className="relative w-full h-[750px] flex flex-col items-center justify-start -mb-10 md:-mb-24"
     >
       {/* Sticky container holds the visualization in the viewport as we scroll through the tall div */}
-      <div className="sticky top-0 w-full h-[700px] flex flex-col items-center justify-start pt-4 overflow-hidden">
+      <div className="sticky top-0 w-full h-[500px] md:h-[700px] flex flex-col items-center justify-start pt-4 overflow-hidden">
         {/* Main interactive visualization wrapper */}
         <div className="relative w-full max-w-5xl mx-auto h-[400px] flex items-center justify-between px-4 sm:px-12 md:px-24 mt-4">
           {/* ========================================================= */}

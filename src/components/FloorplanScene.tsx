@@ -277,7 +277,7 @@ function ZolderFloor({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="absolute z-[100] w-64 md:w-72 bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
+            className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
             style={{
               top: "62.5%",
               left: "54%" /* marker is at 350,250 on a 700x400 grid so 50%,62.5%. We offset left slightly */,
@@ -783,7 +783,7 @@ function EersteVerdiepingFloor({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="absolute z-[100] w-64 md:w-72 bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
+            className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
             style={{
               top: "83%",
               left: "43%" /* marker is at 270,335 -> 38%, 83%. We place left at 43% */,
@@ -808,7 +808,7 @@ function EersteVerdiepingFloor({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="absolute z-[100] w-64 md:w-72 bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
+            className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
             style={{
               top: "83%",
               left: "76.5%" /* marker is at 510,335 -> 72.8%, 83%. We place left at 76.5% */,
@@ -832,7 +832,7 @@ function EersteVerdiepingFloor({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="absolute z-[100] w-64 md:w-72 bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
+            className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
             style={{
               top: "43.7%",
               left: "60%" /* marker is at 394,175 -> 56%, 43.7%. We offset left slightly */,
@@ -1284,7 +1284,7 @@ function BeganeGrondFloor({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="absolute z-[100] w-64 md:w-72 bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
+            className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
             style={{
               top: "23.7%",
               left: "15%" /* marker is at 75,95 -> 10.7%, 23.7%. We place left at 15% */,
@@ -1308,7 +1308,7 @@ function BeganeGrondFloor({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="absolute z-[100] w-64 md:w-72 bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
+            className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
             style={{
               top: "77.5%",
               left: "52.5%" /* marker is at 340,310 -> 48.5%, 77.5%. We place left at 52.5% */,
@@ -1332,7 +1332,7 @@ function BeganeGrondFloor({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="absolute z-[100] w-64 md:w-80 bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
+            className="absolute z-[100] w-64 md:w-80 max-w-[calc(100vw-2rem)] bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-5 pointer-events-none"
             style={{
               top: "70%",
               left: "76.8%" /* marker is at 510,280 -> 72.8%, 70%. We place left at 76.8% */,
@@ -1450,7 +1450,7 @@ export default function FloorplanScene() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 5, scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                className="absolute z-[100] w-64 md:w-80 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none right-0 bottom-full mb-3 text-left rotate-[3deg] font-sans whitespace-normal"
+                className="absolute z-[100] w-64 md:w-80 max-w-[calc(100vw-2rem)] bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none right-0 bottom-full mb-3 text-left rotate-[3deg] font-sans whitespace-normal"
               >
                 <div className="w-8 h-[2px] bg-red-500 rounded-full mb-3" />
                 <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">

@@ -98,7 +98,7 @@ export default function ScannerInterface() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 5, scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                  className="absolute z-[100] w-64 md:w-72 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none left-0 top-full mt-4 text-left cursor-default whitespace-normal font-sans"
+                  className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-3rem)] bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none left-0 top-full mt-4 text-left cursor-default whitespace-normal font-sans"
                 >
                   <div className="w-8 h-[2px] bg-gray-900 rounded-full mb-3" />
                   <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">
@@ -148,7 +148,7 @@ export default function ScannerInterface() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 5, scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                    className="absolute z-[100] w-64 md:w-72 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none left-1/2 -translate-x-1/2 top-full mt-4 text-left cursor-default whitespace-normal font-sans"
+                    className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-3rem)] bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none left-1/2 -translate-x-1/2 top-full mt-4 text-left cursor-default whitespace-normal font-sans"
                   >
                     <div className="w-8 h-[2px] bg-orange-500 rounded-full mb-3" />
                     <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">
@@ -183,7 +183,7 @@ export default function ScannerInterface() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 5, scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                    className="absolute z-[100] w-64 md:w-72 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none right-0 top-full mt-4 text-left cursor-default whitespace-normal font-sans"
+                    className="absolute z-[100] w-64 md:w-72 max-w-[calc(100vw-3rem)] bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] p-5 pointer-events-none right-0 top-full mt-4 text-left cursor-default whitespace-normal font-sans"
                   >
                     <div className="w-8 h-[2px] bg-red-500 rounded-full mb-3" />
                     <h4 className="font-serif text-[17px] font-bold text-gray-900 leading-snug tracking-tight mb-2">

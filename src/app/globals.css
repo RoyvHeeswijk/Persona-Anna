@@ -729,6 +729,14 @@ body {
   line-height: 1.75;
   cursor: none; /* Hide default cursor for custom one */
   position: relative;
+  overflow-x: hidden;
+}
+
+/* Restore default cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .hub {
+    cursor: auto;
+  }
 }
 
 /* ===== TACTILE PAPER GRAIN ===== */

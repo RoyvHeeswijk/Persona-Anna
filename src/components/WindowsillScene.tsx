@@ -89,9 +89,64 @@ export default function WindowsillScene() {
         }}
       />
 
-      {/* Asymmetric Still-Life Canvas */}
+      {/* ═══ MOBILE LAYOUT: 2-col grid of items ═══ */}
+      <div className="md:hidden relative grid grid-cols-2 gap-4 px-4">
+        {items.map((item) => {
+          const isActive = activeId === item.id;
+          return (
+            <div
+              key={item.id}
+              className="flex flex-col items-center"
+              onClick={() => setActiveId(isActive ? null : item.id)}
+            >
+              <motion.div
+                className="relative w-full aspect-square cursor-pointer"
+                animate={{ y: [0, -4, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: item.floatDelay,
+                }}
+              >
+                <Image
+                  src={item.imageSrc}
+                  alt={item.title}
+                  fill
+                  unoptimized
+                  className="object-contain"
+                  sizes="160px"
+                />
+              </motion.div>
+              <AnimatePresence>
+                {isActive && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="w-full overflow-hidden"
+                  >
+                    <div className="bg-white/80 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08)] p-4 mt-2">
+                      <div className="w-6 h-[2px] bg-[#8a9a85] rounded-full mb-2" />
+                      <h4 className="font-serif text-[15px] font-bold text-gray-900 leading-snug tracking-tight mb-1">
+                        {item.title}
+                      </h4>
+                      <p className="font-sans text-[12px] leading-[1.6] text-gray-500">
+                        {item.body}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ═══ DESKTOP LAYOUT: Free-floating absolute positioned canvas ═══ */}
       <div
-        className="relative w-full"
+        className="relative w-full hidden md:block"
         style={{ height: "clamp(420px, 55vw, 640px)" }}
       >
         {items.map((item) => {
@@ -182,8 +237,11 @@ export default function WindowsillScene() {
 
       {/* Instruction text */}
       <div className="text-center pb-4 mt-4">
-        <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-gray-300">
+        <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-gray-300 hidden md:inline">
           Hover over de objecten
+        </span>
+        <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-gray-300 md:hidden">
+          Tik op een object
         </span>
       </div>
     </div>
