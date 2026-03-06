@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useBookStore } from "@/store/useBookStore";
 import PageContent from "./PageContent";
 import SpiralBinding from "./SpiralBinding";
 
@@ -12,19 +11,32 @@ const FLIP_EASE: [number, number, number, number] = [
 ];
 
 export default function Book() {
-  const { spreads, currentSpreadIndex, nextSpread, prevSpread, addSpread } =
-    useBookStore();
+  const [currentSpreadIndex, setCurrentSpreadIndex] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
   const [flipDir, setFlipDir] = useState<"fwd" | "bwd">("fwd");
 
-  const current = spreads[currentSpreadIndex];
-  const next =
-    currentSpreadIndex < spreads.length - 1
-      ? spreads[currentSpreadIndex + 1]
+  const totalSpreads = 2;
+  const currentSpread = {
+    left: currentSpreadIndex * 2,
+    right: currentSpreadIndex * 2 + 1,
+  };
+  const nextSpread =
+    currentSpreadIndex < totalSpreads - 1
+      ? {
+          left: (currentSpreadIndex + 1) * 2,
+          right: (currentSpreadIndex + 1) * 2 + 1,
+        }
       : null;
-  const prev = currentSpreadIndex > 0 ? spreads[currentSpreadIndex - 1] : null;
-  const canNext = !!next;
-  const canPrev = !!prev;
+  const prevSpread =
+    currentSpreadIndex > 0
+      ? {
+          left: (currentSpreadIndex - 1) * 2,
+          right: (currentSpreadIndex - 1) * 2 + 1,
+        }
+      : null;
+
+  const canNext = !!nextSpread;
+  const canPrev = !!prevSpread;
 
   const goNext = useCallback(() => {
     if (isFlipping || !canNext) return;
@@ -39,10 +51,10 @@ export default function Book() {
   }, [isFlipping, canPrev]);
 
   const onFlipDone = useCallback(() => {
-    if (flipDir === "fwd") nextSpread();
-    else prevSpread();
+    if (flipDir === "fwd") setCurrentSpreadIndex((s) => s + 1);
+    else setCurrentSpreadIndex((s) => s - 1);
     setIsFlipping(false);
-  }, [flipDir, nextSpread, prevSpread]);
+  }, [flipDir]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -62,19 +74,10 @@ export default function Book() {
             <div className="book-pages-container">
               {/* LEFT PAGE */}
               <div className="book-page page-left">
-                {isFlipping && flipDir === "bwd" && prev ? (
-                  <PageContent
-                    page={prev.left}
-                    spreadIndex={currentSpreadIndex - 1}
-                    side="left"
-                    readOnly
-                  />
+                {isFlipping && flipDir === "bwd" && prevSpread ? (
+                  <PageContent pageIndex={prevSpread.left} />
                 ) : (
-                  <PageContent
-                    page={current.left}
-                    spreadIndex={currentSpreadIndex}
-                    side="left"
-                  />
+                  <PageContent pageIndex={currentSpread.left} />
                 )}
               </div>
 
@@ -83,24 +86,15 @@ export default function Book() {
 
               {/* RIGHT PAGE */}
               <div className="book-page page-right relative">
-                {isFlipping && flipDir === "fwd" && next ? (
-                  <PageContent
-                    page={next.right}
-                    spreadIndex={currentSpreadIndex + 1}
-                    side="right"
-                    readOnly
-                  />
+                {isFlipping && flipDir === "fwd" && nextSpread ? (
+                  <PageContent pageIndex={nextSpread.right} />
                 ) : (
-                  <PageContent
-                    page={current.right}
-                    spreadIndex={currentSpreadIndex}
-                    side="right"
-                  />
+                  <PageContent pageIndex={currentSpread.right} />
                 )}
               </div>
 
               {/* FORWARD FLIP PAGE */}
-              {isFlipping && flipDir === "fwd" && next && (
+              {isFlipping && flipDir === "fwd" && nextSpread && (
                 <motion.div
                   className="flip-page"
                   style={{
@@ -116,27 +110,17 @@ export default function Book() {
                 >
                   {/* Front: current right page */}
                   <div className="flip-face book-page page-right">
-                    <PageContent
-                      page={current.right}
-                      spreadIndex={currentSpreadIndex}
-                      side="right"
-                      readOnly
-                    />
+                    <PageContent pageIndex={currentSpread.right} />
                   </div>
                   {/* Back: next left page */}
                   <div className="flip-face flip-back book-page page-left">
-                    <PageContent
-                      page={next.left}
-                      spreadIndex={currentSpreadIndex + 1}
-                      side="left"
-                      readOnly
-                    />
+                    <PageContent pageIndex={nextSpread.left} />
                   </div>
                 </motion.div>
               )}
 
               {/* BACKWARD FLIP PAGE */}
-              {isFlipping && flipDir === "bwd" && prev && (
+              {isFlipping && flipDir === "bwd" && prevSpread && (
                 <motion.div
                   className="flip-page"
                   style={{
@@ -152,21 +136,11 @@ export default function Book() {
                 >
                   {/* Front: current left page */}
                   <div className="flip-face book-page page-left">
-                    <PageContent
-                      page={current.left}
-                      spreadIndex={currentSpreadIndex}
-                      side="left"
-                      readOnly
-                    />
+                    <PageContent pageIndex={currentSpread.left} />
                   </div>
                   {/* Back: previous right page */}
                   <div className="flip-face flip-back book-page page-right">
-                    <PageContent
-                      page={prev.right}
-                      spreadIndex={currentSpreadIndex - 1}
-                      side="right"
-                      readOnly
-                    />
+                    <PageContent pageIndex={prevSpread.right} />
                   </div>
                 </motion.div>
               )}
@@ -231,7 +205,7 @@ export default function Book() {
         </button>
 
         <span className="page-counter">
-          {currentSpreadIndex + 1} / {spreads.length}
+          {currentSpreadIndex + 1} / {totalSpreads}
         </span>
 
         <button
@@ -249,18 +223,6 @@ export default function Book() {
               strokeLinejoin="round"
             />
           </svg>
-        </button>
-
-        <button className="nav-btn nav-btn-add" onClick={addSpread}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M12 5V19M5 12H19"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-          </svg>
-          Add Page
         </button>
       </nav>
     </div>

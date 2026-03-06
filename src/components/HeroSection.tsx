@@ -56,7 +56,7 @@ export default function HeroSection() {
             }}
           >
             <Image
-              src="/anna-hero.png"
+              src="/anna-hero-v2.png"
               alt="Anna — 34 jaar, logistiek medewerker in Venlo"
               fill
               priority
